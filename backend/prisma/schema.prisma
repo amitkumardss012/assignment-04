@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Enums for standardizing data
+enum Role {
+  VENDOR
+  CUSTOMER
+  ADMIN
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  CONFIRMED
+  REJECTED
+}
+
+enum VendorCategory {
+  PHOTOGRAPHY
+  CATERING
+  VENUE
+  DECORATION
+  MUSIC
+  PLANNING
+  OTHER
+}
+
+// User Model for Authentication
+model User {
+  id           String @id @default(uuid())
+  email        String @unique
+  passwordHash String
+  role         Role   @default(VENDOR)
+
+  vendorProfile VendorProfile?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Vendor Profile Information
+model VendorProfile {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  vendorName  String
+  category    VendorCategory
+  location    String
+  contactInfo String
+
+  inquiries  Inquiry[]     @relation("VendorInquiries")
+  activities ActivityLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([location])
+}
+
+// Event Inquiry Management
+model Inquiry {
+  id       String        @id @default(uuid())
+  vendorId String
+  vendor   VendorProfile @relation("VendorInquiries", fields: [vendorId], references: [id], onDelete: Cascade)
+
+  customerName  String
+  customerEmail String
+  customerPhone String
+
+  eventDate DateTime
+  eventType String
+  message   String?
+  status    InquiryStatus @default(NEW)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([vendorId, status])
+  @@index([vendorId, eventDate])
+}
+
+// Scalable Recent Activity Tracking
+model ActivityLog {
+  id       String        @id @default(uuid())
+  vendorId String
+  vendor   VendorProfile @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  action  String
+  details Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([vendorId, createdAt(sort: Desc)])
+}
