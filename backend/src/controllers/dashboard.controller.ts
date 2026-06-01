@@ -5,7 +5,7 @@ import { statusCode } from "../types/types.js";
 import { DashboardService } from "../services/dashboard.services.js";
 import { VendorService } from "../services/vendor.services.js";
 
-export const GetStats = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const GetStats = asyncHandler(async (req, res, next) => {
     const userId = (req as any).user?.id;
     
     const vendorProfile = await VendorService.GetProfileByUserId(userId);
@@ -22,7 +22,7 @@ export const GetStats = asyncHandler(async (req: Request, res: Response, next: N
     }, statusCode.OK);
 });
 
-export const GetUpcomingEvents = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const GetUpcomingEvents = asyncHandler(async (req, res, next) => {
     const userId = (req as any).user?.id;
     
     const vendorProfile = await VendorService.GetProfileByUserId(userId);
@@ -35,7 +35,7 @@ export const GetUpcomingEvents = asyncHandler(async (req: Request, res: Response
     return SuccessResponse(res, "Upcoming events retrieved successfully", events, statusCode.OK);
 });
 
-export const GetRecentActivity = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const GetRecentActivity = asyncHandler(async (req, res, next) => {
     const userId = (req as any).user?.id;
     
     const vendorProfile = await VendorService.GetProfileByUserId(userId);

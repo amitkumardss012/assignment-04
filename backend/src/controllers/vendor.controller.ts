@@ -4,7 +4,7 @@ import { ErrorResponse, SuccessResponse } from "../utils/response.util.js";
 import { statusCode, VendorCategory } from "../types/types.js";
 import { VendorService } from "../services/vendor.services.js";
 
-export const CreateProfile = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const CreateProfile = asyncHandler(async (req, res, next) => {
     const userId = (req as any).user?.id;
     if (!userId) {
         return next(new ErrorResponse("Not authenticated", statusCode.Unauthorized));
@@ -37,7 +37,7 @@ export const CreateProfile = asyncHandler(async (req: Request, res: Response, ne
     return SuccessResponse(res, "Vendor profile created successfully", profile, statusCode.Created);
 });
 
-export const GetProfile = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const GetProfile = asyncHandler(async (req, res, next) => {
     const userId = (req as any).user?.id;
     if (!userId) {
         return next(new ErrorResponse("Not authenticated", statusCode.Unauthorized));
@@ -51,7 +51,7 @@ export const GetProfile = asyncHandler(async (req: Request, res: Response, next:
     return SuccessResponse(res, "Vendor profile retrieved successfully", profile, statusCode.OK);
 });
 
-export const UpdateProfile = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const UpdateProfile = asyncHandler(async (req, res, next) => {
     const userId = (req as any).user?.id;
     if (!userId) {
         return next(new ErrorResponse("Not authenticated", statusCode.Unauthorized));

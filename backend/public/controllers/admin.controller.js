@@ -8,7 +8,7 @@ export const getDashboardStats = asyncHandler(async (req, res, next) => {
     const stats = await AdminService.getDashboardStats();
     return SuccessResponse(res, "Admin stats retrieved", stats, statusCode.OK);
 });
-export const getAllVendors = asyncHandler(async (req, res, next) => {
+export const getAllVendors = asyncHandler(async (req, res) => {
     const vendors = await AdminService.getAllVendors();
     return SuccessResponse(res, "Vendors retrieved", vendors, statusCode.OK);
 });

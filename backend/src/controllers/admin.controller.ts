@@ -6,17 +6,17 @@ import { SuccessResponse, ErrorResponse } from "../utils/response.util.js";
 import { statusCode } from "../types/types.js";
 import { UserService } from "../services/user.services.js";
 
-export const getDashboardStats = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const getDashboardStats = asyncHandler(async (req, res, next) => {
     const stats = await AdminService.getDashboardStats();
     return SuccessResponse(res, "Admin stats retrieved", stats, statusCode.OK);
 });
 
-export const getAllVendors = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const getAllVendors = asyncHandler(async (req, res) => {
     const vendors = await AdminService.getAllVendors();
     return SuccessResponse(res, "Vendors retrieved", vendors, statusCode.OK);
 });
 
-export const getVendorDetails = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const getVendorDetails = asyncHandler(async (req, res, next) => {
     const vendorId = req.params.id;
     const vendor = await AdminService.getVendorDetails(vendorId as string);
     
@@ -27,7 +27,7 @@ export const getVendorDetails = asyncHandler(async (req: Request, res: Response,
     return SuccessResponse(res, "Vendor details retrieved", vendor, statusCode.OK);
 });
 
-export const createVendor = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const createVendor = asyncHandler(async (req, res, next) => {
     const { email, password, vendorName, category, location, contactInfo } = req.body;
 
     if (!email || !password || !vendorName || !category || !location || !contactInfo) {

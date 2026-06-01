@@ -1,8 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import { ZodError } from "zod";
-import { statusCode } from "../types/types.js";
 import type { ErrorResponse } from "../utils/response.util.js";
-import { zodError } from "../utils/utils.js";
 
 export const errorMiddleware = (
   err: ErrorResponse,
@@ -14,24 +11,8 @@ export const errorMiddleware = (
   err.message ||= "Internal Server Error";
   err.statusCode ||= 500;
 
-  if (err.name === "CastError") err.message = "Invalid ID";
   if ("code" in err && err.code === "P2025") {
     err.message = "Item not found";
-  }
-
-   // ✅ Handle Zod error
-  if (err instanceof ZodError) {
-    const errors = zodError(err);
-
-    // get first zod error message
-    const firstErrorMessage =
-      err.issues.length > 0 ? err?.issues?.[0]?.message : "Validation Error";
-
-    return res.status(statusCode.Bad_Request).json({
-      success: false,
-      message: firstErrorMessage,
-      errors,
-    });
   }
 
   // Final Error Response

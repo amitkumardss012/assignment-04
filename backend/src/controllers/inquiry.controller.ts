@@ -6,7 +6,7 @@ import { InquiryService } from "../services/inquiry.services.js";
 import { VendorService } from "../services/vendor.services.js";
 import { ActivityLogService } from "../services/activity.services.js";
 
-export const CreateInquiry = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const CreateInquiry = asyncHandler(async (req, res, next) => {
     const userId = (req as any).user?.id;
     if (!userId) {
         return next(new ErrorResponse("Not authenticated", statusCode.Unauthorized));
@@ -38,7 +38,7 @@ export const CreateInquiry = asyncHandler(async (req: Request, res: Response, ne
     return SuccessResponse(res, "Inquiry created successfully", inquiry, statusCode.Created);
 });
 
-export const GetInquiries = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const GetInquiries = asyncHandler(async (req, res, next) => {
     const user = (req as any).user;
     if (!user) {
         return next(new ErrorResponse("Not authenticated", statusCode.Unauthorized));
@@ -58,7 +58,7 @@ export const GetInquiries = asyncHandler(async (req: Request, res: Response, nex
     return SuccessResponse(res, "Inquiries retrieved successfully", inquiries, statusCode.OK);
 });
 
-export const UpdateInquiryStatus = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const UpdateInquiryStatus = asyncHandler(async (req, res, next) => {
     const user = (req as any).user;
     const { id } = req.params;
     const { status } = req.body;

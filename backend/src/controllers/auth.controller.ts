@@ -8,7 +8,7 @@ import { ErrorResponse, SuccessResponse } from "../utils/response.util.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_key_123";
 
-export const Login = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const Login = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -44,12 +44,12 @@ export const Login = asyncHandler(async (req: Request, res: Response, next: Next
     return SuccessResponse(res, "Login successful", { user: userWithoutPassword, token }, statusCode.OK);
 });
 
-export const Logout = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const Logout = asyncHandler(async (req, res, next) => {
     res.clearCookie("token");
     return SuccessResponse(res, "Logout successful", null, statusCode.OK);
 });
 
-export const Me = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+export const Me = asyncHandler(async (req, res, next) => {
     const userId = (req as any).user?.id;
     if (!userId) {
         return next(new ErrorResponse("Not authenticated", statusCode.Unauthorized));
