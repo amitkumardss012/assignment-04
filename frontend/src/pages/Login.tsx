@@ -69,14 +69,6 @@ export function LoginPage() {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex justify-center border-t p-4">
-        <p className="text-sm text-neutral-500">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-primary font-medium hover:underline">
-            Register
-          </Link>
-        </p>
-      </CardFooter>
     </Card>
   );
 }

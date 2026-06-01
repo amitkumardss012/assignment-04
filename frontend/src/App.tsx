@@ -6,7 +6,6 @@ import { AdminLayout } from "./layouts/AdminLayout";
 import { AuthGuard, GuestGuard } from "./components/AuthGuard";
 import { AdminGuard } from "./components/AdminGuard";
 import { LoginPage } from "./pages/Login";
-import { RegisterPage } from "./pages/Register";
 import { ProfilePage } from "./pages/Profile";
 import { DashboardPage } from "./pages/Dashboard";
 import { InquiriesPage } from "./pages/Inquiries";
@@ -24,7 +23,6 @@ const router = createBrowserRouter([
         children: [
           { path: "/", element: <Navigate to="/login" replace /> },
           { path: "/login", element: <LoginPage /> },
-          { path: "/register", element: <RegisterPage /> },
         ],
       },
     ],

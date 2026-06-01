@@ -4,12 +4,6 @@ export interface User {
   role: "VENDOR" | "CUSTOMER" | "ADMIN";
 }
 
-export interface RegisterData {
-  email: string;
-  password: string;
-  role?: "VENDOR" | "CUSTOMER";
-}
-
 export interface LoginData {
   email: string;
   password: string;

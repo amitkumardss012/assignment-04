@@ -1,46 +1,12 @@
-import type { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
+import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { asyncHandler } from "../middlewares/error.middleware.js";
-import { ErrorResponse, SuccessResponse } from "../utils/response.util.js";
-import { statusCode, VendorCategory } from "../types/types.js";
 import { UserService } from "../services/user.services.js";
-import { VendorService } from "../services/vendor.services.js";
+import { statusCode } from "../types/types.js";
+import { ErrorResponse, SuccessResponse } from "../utils/response.util.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_key_123";
-
-export const Register = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password, role } = req.body;
-
-    if (!email || !password) {
-        return next(new ErrorResponse("Please provide email and password", statusCode.Bad_Request));
-    }
-
-    const existingUser = await UserService.FindUserByEmail(email);
-    if (existingUser) {
-        return next(new ErrorResponse("Email is already registered", statusCode.Bad_Request));
-    }
-
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const user = await UserService.CreateUser({
-        email,
-        passwordHash,
-        role: role || "VENDOR" 
-    });
-
-    if (user.role === "VENDOR") {
-        await VendorService.CreateProfile({
-            userId: user.id,
-            vendorName: "starvnt entertainment",
-            category: VendorCategory.PHOTOGRAPHY,
-            location: "kolkata",
-            contactInfo: email
-        });
-    }
-
-    return SuccessResponse(res, "User registered successfully", user, statusCode.Created);
-});
 
 export const Login = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;

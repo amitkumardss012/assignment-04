@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../lib/api";
-import type { User, RegisterData, LoginData, APIResponse } from "../types/types";
+import type { User, LoginData, APIResponse } from "../types/types";
 import { showSuccessMessage, showErrorMessage } from "../lib/message";
 
 export const authKeys = {
@@ -15,21 +15,6 @@ export function useUser() {
       return response.data;
     },
     retry: false,
-  });
-}
-
-export function useRegister() {
-  return useMutation({
-    mutationFn: async (data: RegisterData) => {
-      const response = await api.post<any, APIResponse<User>>("/auth/register", data);
-      return response;
-    },
-    onSuccess: (response) => {
-      showSuccessMessage(response.message);
-    },
-    onError: (error) => {
-      showErrorMessage(error);
-    },
   });
 }
 
