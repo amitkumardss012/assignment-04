@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const src = path.join(__dirname, 'frontend', 'dist');
-const dest = path.join(__dirname, 'backend', 'dist');
+const destBackend = path.join(__dirname, 'backend', 'dist');
+const destRoot = path.join(__dirname, 'dist');
 
 function copyDir(src, dest) {
   if (!fs.existsSync(dest)) {
@@ -24,8 +25,10 @@ function copyDir(src, dest) {
 }
 
 if (fs.existsSync(src)) {
-  console.log(`Copying frontend build from ${src} to ${dest}...`);
-  copyDir(src, dest);
+  console.log(`Copying frontend build to backend/dist...`);
+  copyDir(src, destBackend);
+  console.log(`Copying frontend build to root/dist (for Vercel)...`);
+  copyDir(src, destRoot);
   console.log('Copy completed.');
 } else {
   console.log(`Frontend build not found at ${src}. Make sure the frontend builds correctly.`);
