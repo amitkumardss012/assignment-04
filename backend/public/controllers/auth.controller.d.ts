@@ -1,5 +1,4 @@
-import type { Request, Response, NextFunction } from "express";
-export declare const Register: (req: Request, res: Response, next: NextFunction) => void;
+import type { NextFunction, Request, Response } from "express";
 export declare const Login: (req: Request, res: Response, next: NextFunction) => void;
 export declare const Logout: (req: Request, res: Response, next: NextFunction) => void;
 export declare const Me: (req: Request, res: Response, next: NextFunction) => void;
